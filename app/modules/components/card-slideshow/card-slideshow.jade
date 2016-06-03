@@ -1,0 +1,18 @@
+.card-slideshow
+    tg-svg.ion-chevron-left(
+        ng-click="vm.previous()"
+        ng-if="vm.hasPagination()"
+        svg-icon="icon-arrow-left"
+    )
+    tg-svg.ion-chevron-right(
+        ng-click="vm.next()"
+        ng-if="vm.hasPagination()"
+        svg-icon="icon-arrow-right"
+    )
+
+    .card-slideshow-wrapper(
+        ng-if="$index == vm.index"
+        tg-repeat="attachment in vm.attachments track by attachment.get('id')"
+    )
+        tg-preload-image(preload-src="{{attachment.get('thumbnail_card_url')}}")
+            img(ng-src="{{attachment.get('thumbnail_card_url')}}")

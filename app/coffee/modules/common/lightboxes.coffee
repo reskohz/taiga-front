@@ -442,7 +442,7 @@ module.directive("tgLbCreateEditUserstory", [
 ## Creare Bulk Userstories Lightbox Directive
 #############################################################################
 
-CreateBulkUserstoriesDirective = ($repo, $rs, $rootscope, lightboxService, $loading) ->
+CreateBulkUserstoriesDirective = ($repo, $rs, $rootscope, lightboxService, $loading, $model) ->
     link = ($scope, $el, attrs) ->
         form = null
 
@@ -469,6 +469,7 @@ CreateBulkUserstoriesDirective = ($repo, $rs, $rootscope, lightboxService, $load
 
             promise = $rs.userstories.bulkCreate($scope.new.projectId, $scope.new.statusId, $scope.new.bulk)
             promise.then (result) ->
+                result =  _.map(result.data, (x) => $model.make_model('userstories', x))
                 currentLoading.finish()
                 $rootscope.$broadcast("usform:bulk:success", result)
                 lightboxService.close($el)
@@ -494,6 +495,7 @@ module.directive("tgLbCreateBulkUserstories", [
     "$rootScope",
     "lightboxService",
     "$tgLoading",
+    "$tgModel",
     CreateBulkUserstoriesDirective
 ])
 

@@ -15,6 +15,8 @@ div.wrapper(tg-taskboard, ng-controller="TaskboardController as ctrl",
                 div.burndown(tg-sprint-graph)
                     include ../includes/modules/burndown
 
+            tg-board-zoom(value="ctrl.zoom")
+
             include ../includes/modules/taskboard-table
 
     div.lightbox.lightbox-generic-form(tg-lb-create-edit-task)

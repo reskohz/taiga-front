@@ -2,7 +2,7 @@ div.taskboard-table(tg-taskboard-squish-column, tg-taskboard-sortable)
     div.taskboard-table-header
         div.taskboard-table-inner
             h2.task-colum-name(translate="TASKBOARD.TABLE.COLUMN")
-            h2.task-colum-name(ng-repeat="s in taskStatusList track by s.id", ng-style="{'border-top-color':s.color}", ng-class="{'column-fold':statusesFolded[s.id]}", class="squish-status-{{s.id}}", tg-bo-title="s.name")
+            h2.task-colum-name(ng-repeat="s in ::taskStatusList track by s.id", ng-style="{'border-top-color':s.color}", ng-class="{'column-fold':statusesFolded[s.id]}", class="squish-status-{{s.id}}", tg-bo-title="s.name")
                 span(tg-bo-bind="s.name")
 
                 tg-svg.hfold.fold-action(
@@ -21,7 +21,7 @@ div.taskboard-table(tg-taskboard-squish-column, tg-taskboard-sortable)
 
     div.taskboard-table-body(tg-taskboard-table-height-fixer)
         div.taskboard-table-inner
-            div.task-row(ng-repeat="us in userstories track by us.id", ng-class="{blocked: us.is_blocked, 'row-fold':usFolded[us.id]}")
+            div.task-row(ng-repeat="us in ::userstories track by us.id", ng-class="{blocked: us.is_blocked, 'row-fold':usFolded[us.id]}")
                 div.taskboard-userstory-box.task-column(tg-bo-title="us.blocked_note")
                     tg-svg.vfold.fold-action(
                         svg-icon="icon-fold-row",
@@ -49,20 +49,30 @@ div.taskboard-table(tg-taskboard-squish-column, tg-taskboard-sortable)
                         span(translate="TASKBOARD.TABLE.FIELD_POINTS")
                     include ../components/addnewtask
 
-                div.taskboard-tasks-box.task-column(ng-repeat="st in taskStatusList track by st.id", class="squish-status-{{st.id}}", ng-class="{'column-fold':statusesFolded[st.id]}", tg-bind-scope)
-                    div.taskboard-task(
-                        ng-repeat="task in usTasks[us.id][st.id] track by task.id"
-                        tg-bind-scope
-                        tg-class-permission="{'readonly': '!modify_task'}"
-                        ng-class="{'card-placeholder': task.isPlaceholder}"
+
+                div.taskboard-tasks-box.task-column(
+                    ng-repeat="st in ::taskStatusList track by st.id",
+                    class="squish-status-{{st.id}}",
+                    ng-class="{'column-fold':statusesFolded[st.id]}",
+                    tg-bind-scope
+                )
+                    .card-placeholder(
+                         ng-if="ctrl.showPlaceHolder(st.id, us.id)"
+                         ng-include="'common/components/taskboard-placeholder.html'"
                     )
-                        div(ng-if="!task.isPlaceholder", tg-taskboard-task)
-                            include ../components/taskboard-task
 
-                        div(ng-if="task.isPlaceholder")
-                            - var card = 'task'
-                            include ../../common/components/taskboard-placeholder
-
+                    tg-card.card.ng-animate-disabled(
+                        tg-repeat="task in usTasks.getIn([us.id.toString(), st.id.toString()]) track by task.get('id')"
+                        ng-class="{'kanban-task-maximized': ctrl.isMaximized(s.id), 'kanban-task-minimized': ctrl.isMinimized(s.id)}"
+                        tg-class-permission="{'readonly': '!modify_task'}"
+                        tg-bind-scope,
+                        on-click-edit="ctrl.editTask(id)"
+                        on-click-assigned-to="ctrl.changeTaskAssignedTo(id)"
+                        project="project"
+                        item="task"
+                        zoom="ctrl.zoom"
+                        type="task"
+                    )
             div.task-row(ng-init="us = null", ng-class="{'row-fold':usFolded[null]}")
                 div.taskboard-userstory-box.task-column
                     a.vfold(
@@ -82,15 +92,27 @@ div.taskboard-table(tg-taskboard-squish-column, tg-taskboard-sortable)
                     h3.us-title
                         span(translate="TASKBOARD.TABLE.ROW_UNASSIGED_TASKS_TITLE")
                     include ../components/addnewtask.jade
-                div.taskboard-tasks-box.task-column(ng-repeat="st in taskStatusList track by st.id", class="squish-status-{{st.id}}", ng-class="{'column-fold':statusesFolded[st.id]}", tg-bind-scope)
-                    div.taskboard-task(
-                        ng-repeat="task in usTasks[null][st.id] track by task.id"
-                        tg-bind-scope
-                        tg-class-permission="{'readonly': '!modify_task'}"
-                        ng-class="{'card-placeholder': task.isPlaceholder}"
-                    )
-                        div(ng-if="!task.isPlaceholder", tg-taskboard-task)
-                            include ../components/taskboard-task
 
-                        div(ng-if="task.isPlaceholder")
-                            include ../../common/components/taskboard-placeholder
+                div.taskboard-tasks-box.task-column(
+                    ng-repeat="st in ::taskStatusList track by st.id",
+                    class="squish-status-{{st.id}}",
+                    ng-class="{'column-fold':statusesFolded[st.id]}",
+                    tg-bind-scope
+                )
+                    .card-placeholder(
+                         ng-if="ctrl.showPlaceHolder(st.id, us.id)"
+                         ng-include="'common/components/taskboard-placeholder.html'"
+                    )
+
+                    tg-card.card.ng-animate-disabled(
+                        tg-repeat="task in usTasks.getIn(['null', st.id.toString()]) track by task.get('id')"
+                        ng-class="{'kanban-task-maximized': ctrl.isMaximized(s.id), 'kanban-task-minimized': ctrl.isMinimized(s.id)}"
+                        tg-class-permission="{'readonly': '!modify_task'}"
+                        tg-bind-scope,
+                        on-click-edit="ctrl.editTask(id)"
+                        on-click-assigned-to="ctrl.changeTaskAssignedTo(id)"
+                        project="project"
+                        item="task"
+                        zoom="ctrl.zoom"
+                        type="task"
+                    )

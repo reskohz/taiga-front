@@ -139,7 +139,7 @@ CreateEditTaskDirective = ($repo, $model, $rs, $rootscope, $loading, lightboxSer
     return {link: link}
 
 
-CreateBulkTasksDirective = ($repo, $rs, $rootscope, $loading, lightboxService) ->
+CreateBulkTasksDirective = ($repo, $rs, $rootscope, $loading, lightboxService, $model) ->
     link = ($scope, $el, attrs) ->
         $scope.form = {data: "", usId: null}
 
@@ -161,6 +161,7 @@ CreateBulkTasksDirective = ($repo, $rs, $rootscope, $loading, lightboxService) -
 
             promise = $rs.tasks.bulkCreate(projectId, sprintId, usId, data)
             promise.then (result) ->
+                result =  _.map(result, (x) => $model.make_model('userstories', x))
                 currentLoading.finish()
                 $rootscope.$broadcast("taskform:bulk:success", result)
                 lightboxService.close($el)
@@ -205,5 +206,6 @@ module.directive("tgLbCreateBulkTasks", [
     "$rootScope",
     "$tgLoading",
     "lightboxService",
+    "$tgModel",
     CreateBulkTasksDirective
 ])

@@ -1,0 +1,91 @@
+.card-tags
+    a.card-tag(
+        href=""
+        tg-repeat="tag in vm.item.get('colorized_tags') track by tag.get('name')"
+        style="height: 20px; width: 20px; background-color: {{tag.get('color')}}" title="{{tag.get('name')}}"
+    )
+
+p(ng-if="vm.item.getIn(['model', 'is_blocked'])") Blocked
+p(ng-if="vm.archived") Archivado
+
+.card-owner
+    .card-owner-info(ng-if="vm.zoom >= 0 && vm.item.get('assigned_to')")
+        img(ng-src="{{vm.item.getIn(['assigned_to', 'photo'])}}")
+        span.card-owner-name(ng-if="vm.zoom >= 2") {{vm.item.getIn(['assigned_to', 'full_name'])}}
+
+    .card-owner-info(ng-if="vm.zoom >= 0 && !vm.item.get('assigned_to')")
+        img(ng-src="/#{v}/images/unnamed.png")
+        span.card-owner-name(
+            ng-if="vm.zoom >= 2",
+            translate="COMMON.ASSIGNED_TO.NOT_ASSIGNED"
+        )
+
+    .card-owner-actions(
+        ng-if="vm.zoom >= 2"
+        tg-check-permission="{{vm.getPermissionsKey()}}"
+    )
+        a(
+            ng-click="vm.onClickAssignedTo({id: vm.item.get('id')})"
+            href=""
+          )
+            //todo icon
+            tg-svg(svg-icon="icon-edit")
+            span(translate="COMMON.CARD.ASSIGN_TO")
+
+        a(
+            href=""
+            ng-click="vm.onClickEdit({id: vm.item.get('id')})"
+            tg-loading="vm.item.get('loading')"
+        )
+            //todo icon
+            tg-svg(svg-icon="icon-edit")
+            span(translate="COMMON.CARD.EDIT")
+
+h2.card-title(ng-if="vm.zoom >= 1")
+    a(
+        href="#"
+        tg-nav="{{vm.getNavKey()}}:project=vm.project.slug,ref=vm.item.getIn(['model', 'ref'])",
+        tg-nav-get-params="{\"kanban-status\": {{vm.item.getIn(['model', 'status'])}}}"
+        title="#{{ ::vm.item.getIn(['model', 'ref']) }} {{ vm.item.getIn(['model', 'subject'])}}"
+    ) {{::"#" + vm.item.getIn(['model', 'ref'])}} {{vm.item.getIn(['model', 'subject'])}}
+
+.card-data(ng-if="vm.zoom >= 2")
+    span.card-estimation(
+        ng-if="vm.item.getIn(['model', 'total_points']) === null",
+        translate="US.NOT_ESTIMATED"
+    )
+    span.card-estimation(
+        ng-if="vm.item.getIn(['model', 'total_points']) !== null"
+    ) {{"COMMON.FIELDS.POINTS" | translate}} {{vm.item.getIn(['model', 'total_points'])}}
+    .card-statistics
+        .statistic.card-votes
+            tg-svg(svg-icon="icon-link")
+            span {{item.getIn(['model', 'total_voters'])}}
+        .statistic.card-watchers.active
+            tg-svg(svg-icon="icon-eye")
+            span {{item.getIn(['model', 'total_watchers'])}}
+
+.card-completion(ng-if="vm.zoom >= 2 && vm.item.getIn(['model', 'tasks']).size")
+    .card-completion-bar
+    .card-completion-percentage(ng-style="{width: vm.closedTasksPercent() + '%'}" )
+    span.card-tooltip tasks {{vm.getClosedTasks().size}}/{{vm.item.getIn(['model', 'tasks']).size}}
+
+ul.card-tasks(ng-if="vm.zoom >= 4 && vm.item.getIn(['model', 'tasks']).size")
+    li.card-task(tg-repeat="task in vm.item.getIn(['model', 'tasks'])")
+        a(
+            href="#"
+            tg-nav="project-tasks-detail:project=vm.project.slug,ref=task.get('ref')",
+            ng-class="{'closed-task': task.get('is_closed'), 'blocked-task': task.get('is_blocked')}"
+        ) {{"#" + task.get('ref')}} {{task.get('subject')}}
+
+tg-card-slideshow(
+    ng-if="vm.zoom >= 3",
+    attachments="vm.item.getIn(['model', 'attachments'])"
+)
+
+.card-unfold.ng-animate-disabled(
+    ng-if="vm.zoom >= 3",
+    role="button"
+)
+    //todo icon
+    tg-svg(svg-icon="icon-more")

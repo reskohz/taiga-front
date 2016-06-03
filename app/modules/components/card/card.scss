@@ -1,0 +1,219 @@
+.card {
+    background: $white;
+    border-radius: 4px;
+    box-shadow: 3px 3px 2px $gray-light;
+    cursor: move;
+    display: block;
+    margin: .2rem;
+    overflow: hidden;
+    transition: box-shadow .2s ease-in;
+    &:hover {
+        box-shadow: 4px 4px 4px $whitish;
+    }
+}
+
+.card-tags {
+    display: flex;
+    .tag {
+        display: block;
+        flex: 1;
+        height: .5rem;
+    }
+}
+
+.card-owner {
+    position: relative;
+    .card-owner-info {
+        align-items: center;
+        display: flex;
+    }
+    &:hover {
+        .card-owner-actions {
+            opacity: 1;
+        }
+    }
+    img {
+        height: 3rem;
+        margin-right: .5rem;
+        width: 3rem;
+    }
+    .card-owner-name {
+        color: $gray-light;
+    }
+}
+
+.card-owner-actions {
+    background: rgba($white, .9);
+    display: flex;
+    justify-content: space-between;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: all .2s;
+    width: 100%;
+    .icon {
+        margin-right: .25rem;
+    }
+    a {
+        padding: 1rem;
+    }
+}
+
+.card-title {
+    color: $grayer;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.25;
+    margin: .75rem 0 .25rem;
+    padding: 0 1rem;
+}
+
+.card-data {
+    color: $gray-light;
+    display: flex;
+    font-size: 14px;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+.card-statistics {
+    display: flex;
+    .statistic {
+        margin-left: .5rem;
+        &.active {
+            color: darken($primary-light, 5%);
+        }
+    }
+    .icon {
+        margin-right: .2rem;
+    }
+}
+
+.card-completion {
+    height: 1rem;
+    margin: 0 1rem;
+    position: relative;
+    .card-completion-bar {
+        background: $whitish;
+        height: .4rem;
+        width: 100%;
+    }
+    .card-completion-percentage {
+        background: $primary-light;
+        cursor: pointer;
+        height: .4rem;
+        left: 0;
+        position: absolute;
+        top: 0;
+        &:hover {
+            + .card-tooltip {
+                opacity: 1;
+            }
+        }
+    }
+    .card-tooltip {
+        background: $blackish;
+        border-radius: 5px;
+        color: $white;
+        font-size: 14px;
+        left: calc(25% - 50px);
+        opacity: 0;
+        padding: .25rem 1rem;
+        position: absolute;
+        text-align: center;
+        top: -2.25rem;
+        transition: opacity .2s;
+        width: 100px;
+        &::after {
+            background: $black;
+            content: '';
+            height: 10px;
+            left: 50%;
+            position: absolute;
+            top: 70%;
+            transform: rotate(45deg);
+            width: 10px;
+        }
+    }
+}
+
+.card-unfold {
+    color: $gray-light;
+    cursor: pointer;
+    font-size: 21px;
+    margin: 0;
+    text-align: center;
+    transition: all .2s ease-in;
+    &:hover {
+        background: linear-gradient($white, $whitish);
+        color: darken($gray-light, 10%);
+    }
+}
+
+.card-tasks {
+    border-top: 1px solid $whitish;
+    margin: 0;
+    margin-top: .5rem;
+    padding: 0;
+}
+
+.card-task {
+    border-bottom: 1px solid $whitish;
+    font-size: 12px;
+    list-style: none;
+    a {
+        color: $gray-light;
+        display: block;
+        overflow: hidden;
+        padding: .5rem .75rem;
+        text-overflow: ellipsis;
+        transition: color .2s;
+        white-space: nowrap;
+        &.blocked-task {
+            color: $red-light;
+        }
+        &.closed-task {
+            color: $gray-light;
+            text-decoration: line-through;
+        }
+        &:hover {
+            color: $primary;
+        }
+    }
+}
+
+.card-slideshow {
+    position: relative;
+    tg-svg {
+        cursor: pointer;
+        font-size: 1.2rem;
+        position: absolute;
+        top: 45%;
+        transition: color .2s;
+        &:hover {
+            color: $primary-light;
+        }
+    }
+    .ion-chevron-left {
+        left: .5rem;
+    }
+    .ion-chevron-right {
+        right: .5rem;
+    }
+    img {
+        width: 100%;
+    }
+}
+
+.card-slideshow-wrapper {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-height: 200px;
+    .loading-spinner {
+        max-height: 10rem;
+        max-width: 10rem;
+    }
+}

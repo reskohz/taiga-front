@@ -39,7 +39,11 @@ module = angular.module("taigaBacklog")
 
 TaskboardSortableDirective = ($repo, $rs, $rootscope) ->
     link = ($scope, $el, $attrs) ->
-        bindOnce $scope, "tasks", (xx) ->
+        listener = $scope.$watch "usTasks", (usTasks) ->
+            return if !usTasks.size
+
+            listener()
+
             # If the user has not enough permissions we don't enable the sortable
             if not ($scope.project.my_permissions.indexOf("modify_us") > -1)
                 return
@@ -63,7 +67,8 @@ TaskboardSortableDirective = ($repo, $rs, $rootscope) ->
                 copy: false,
                 mirrorContainer: $el[0],
                 accepts: (el, target) -> return !$(target).hasClass('taskboard-userstory-box')
-                moves: (item) -> return $(item).hasClass('taskboard-task')
+                moves: (item) ->
+                    return $(item).is('tg-card')
             })
 
             drake.on 'drag', (item) ->
@@ -85,7 +90,7 @@ TaskboardSortableDirective = ($repo, $rs, $rootscope) ->
                     deleteElement(itemEl)
 
                 $scope.$apply ->
-                    $rootscope.$broadcast("taskboard:task:move", itemTask, newUsId, newStatusId, itemIndex)
+                    $rootscope.$broadcast("taskboard:task:move", itemTask, itemTask.getIn(['model', 'status']), newUsId, newStatusId, itemIndex)
 
 
             scroll = autoScroll([$('.taskboard-table-body')[0]], {

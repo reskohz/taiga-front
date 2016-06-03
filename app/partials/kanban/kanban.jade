@@ -6,6 +6,7 @@ div.wrapper(tg-kanban, ng-controller="KanbanController as ctrl"
 
     section.main.kanban
         include ../includes/components/mainTitle
+        tg-board-zoom(value="ctrl.zoom")
         include ../includes/modules/kanban-table
 
     div.lightbox.lightbox-generic-form.lb-create-edit-userstory(tg-lb-create-edit-userstory)

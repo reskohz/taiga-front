@@ -14,6 +14,36 @@ section
         ng-show="projectTagsAll.length"
     )
         div.table-header.table-tags-editor
+            form
+                div.row.table-main.new-value.hidden
+                    div.color-column(
+                        tg-color-selection
+                        ng-model="newValue"
+                    )
+                        div.current-color(ng-style="{background: newValue.color}")
+                        include ../../components/select-color
+
+                    div.status-name
+                        input(
+                            name="name"
+                            type="text"
+                            placeholder="{{'ADMIN.TYPES.PLACEHOLDER_WRITE_NAME' | translate}}",
+                            ng-model="newValue.name"
+                            data-required="true"
+                            data-maxlength="255"
+                        )
+
+                    div.options-column
+                        a.add-new.e2e-save(href="")
+                            tg-svg(
+                                title="{{'COMMON.ADD' | translate}}",
+                                svg-icon="icon-save"
+                            )
+                        a.delete-new(href="")
+                            tg-svg(
+                                title="{{'COMMON.CANCEL' | translate}}",
+                                svg-icon="icon-close"
+                            )
             div.row.header-tag-row
                 .color-column(translate="COMMON.FIELDS.COLOR")
                 .status-name(translate="COMMON.FIELDS.NAME")
@@ -121,34 +151,3 @@ section
                                         title="{{'ADMIN.PROJECT_VALUES_TAGS.SELECTED' | translate}}",
                                         svg-icon="icon-check"
                                     )
-
-            form
-                div.row.table-main.new-value.hidden
-                    div.color-column(
-                        tg-color-selection
-                        ng-model="newValue"
-                    )
-                        div.current-color(ng-style="{background: newValue.color}")
-                        include ../../components/select-color
-
-                    div.status-name
-                        input(
-                            name="name"
-                            type="text"
-                            placeholder="{{'ADMIN.TYPES.PLACEHOLDER_WRITE_NAME' | translate}}",
-                            ng-model="newValue.name"
-                            data-required="true"
-                            data-maxlength="255"
-                        )
-
-                    div.options-column
-                        a.add-new.e2e-save(href="")
-                            tg-svg(
-                                title="{{'COMMON.ADD' | translate}}",
-                                svg-icon="icon-save"
-                            )
-                        a.delete-new(href="")
-                            tg-svg(
-                                title="{{'COMMON.CANCEL' | translate}}",
-                                svg-icon="icon-close"
-                            )

@@ -62,17 +62,31 @@ ColorizeTagsDirective = ->
     templates = {
         backlog: _.template("""
         <% _.each(tags, function(tag) { %>
-            <span class="tag" style="border-left: 5px solid <%- tag.color %>"><%- tag.name %></span>
+            <span class="tag"
+                <% if (tag.color === null or tag.color == undefined) { %>
+                    style="border-left: 5px solid <%- tag.color %>"
+                <% } %>
+                title="<%- tag.name %>"><%- tag.name %></span>
         <% }) %>
         """)
         kanban: _.template("""
         <% _.each(tags, function(tag) { %>
-            <a class="kanban-tag" href="" style="border-color: <%- tag.color %>" title="<%- tag.name %>" />
+            <a class="kanban-tag"
+                href=""
+                <% if (tag.color === null or tag.color == undefined) { %>
+                    style="border-color: <%- tag.color %>"
+                <% } %>
+                title="<%- tag.name %>" />
         <% }) %>
         """)
         taskboard: _.template("""
         <% _.each(tags, function(tag) { %>
-            <a class="taskboard-tag" href="" style="border-color: <%- tag.color %>" title="<%- tag.name %>" />
+            <a class="taskboard-tag"
+                href=""
+                <% if (tag.color === null or tag.color == undefined) { %>
+                    style="border-color: <%- tag.color %>"
+                <% } %>
+                title="<%- tag.name %>" />
         <% }) %>
         """)
     }
@@ -116,10 +130,12 @@ LbTagLineDirective = ($rs, $template, $compile) ->
 
         ## Render
         renderTags = (tags, tagsColors = []) ->
+            color = if not withoutColors then tagsColors[t] else null
+
             ctx = {
                 tags: _.map(tags, (t) -> {
                     name: t,
-                    style: if not withoutColors then "border-left: 5px solid #{tagsColors[t]}" else ""
+                    style: if color then "border-left: 5px solid #{color}" else ""
                 })
             }
 
@@ -244,12 +260,23 @@ TagLineDirective = ($rootScope, $repo, $rs, $confirm, $modelTransform, $template
 
         ## Render
         renderTags = (tags, tagsColors) ->
+            colored_tags = []
+            for name in tags
+                color = tagsColors[name]
+
+                colored_tags.push({
+                    name: name
+                    style: if color then "border-left: 5px solid #{ color };" else ""
+                })
+
             ctx = {
-                tags: _.map(tags, (t) -> {name: t, color: tagsColors[t]})
+                tags: colored_tags
                 isEditable: isEditable()
                 loading: loading
                 deleteTagLoading: deleteTagLoading
             }
+
+            console.log tagsColors
 
             html = $compile(templateTags(ctx))($scope)
             $el.find("div.tags-container").html(html)
@@ -416,5 +443,5 @@ TagLineDirective = ($rootScope, $repo, $rs, $confirm, $modelTransform, $template
         templateUrl: "common/tag/tag-line.html"
     }
 
-module.directive("tgTagLine", ["$rootScope", "$tgRepo", "$tgResources", "$tgConfirm", "$tgQueueModelTransformation",
-                               "$tgTemplate", "$compile", TagLineDirective])
+module.directive("tgTagLine", ["$rootScope", "$tgRepo", "$tgResources", "$tgConfirm",
+                               "$tgQueueModelTransformation", "$tgTemplate", "$compile", TagLineDirective])

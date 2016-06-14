@@ -18,6 +18,7 @@ section
                 div.row.table-main.new-value.hidden
                     div.color-column(
                         tg-color-selection
+                        tg-allow-empty="true"
                         ng-model="newValue"
                     )
                         div.current-color(ng-style="{background: newValue.color}")
@@ -97,6 +98,7 @@ section
                         div.row.tag-row.table-main.edition.hidden
                             div.color-column(
                                 tg-color-selection
+                                tg-allow-empty="true"
                                 ng-model="tag"
                             )
                                 div.current-color(ng-style="{background: tag.color}")

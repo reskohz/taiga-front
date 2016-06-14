@@ -331,6 +331,10 @@ ColorSelectionDirective = () ->
     ## Color selection Link
 
     link = ($scope, $el, $attrs, $model) ->
+        $scope.allowEmpty = false
+        if $attrs.tgAllowEmpty
+            $scope.allowEmpty = true
+
         $ctrl = $el.controller()
 
         $scope.$watch $attrs.ngModel, (element) ->
@@ -771,6 +775,7 @@ module.controller("ProjectTagsController", ProjectTagsController)
 
 ProjectTagsDirective = ($log, $repo, $confirm, $location, animationFrame, $translate, $rootscope) ->
     link = ($scope, $el, $attrs) ->
+        $window = $(window)
         $ctrl = $el.controller()
         valueType = $attrs.type
         objName = $attrs.objname
@@ -856,6 +861,11 @@ ProjectTagsDirective = ($log, $repo, $confirm, $location, animationFrame, $trans
 
         $scope.$watch "tagsFilter.name", (tagsFilter) ->
             $ctrl.filterAndSortTags()
+
+        $window.on "keyup", (event) ->
+            if event.keyCode == 27
+                $scope.$apply ->
+                    initializeMixingTags()
 
         $el.on "click", ".show-add-new", (event) ->
             event.preventDefault()
@@ -951,6 +961,7 @@ ProjectTagsDirective = ($log, $repo, $confirm, $location, animationFrame, $trans
 
         $scope.$on "$destroy", ->
             $el.off()
+            $window.off()
 
     return {link:link}
 

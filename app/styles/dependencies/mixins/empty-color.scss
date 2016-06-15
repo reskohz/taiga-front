@@ -1,0 +1,26 @@
+@mixin empty-color {
+    background: $whitish;
+    position: relative;
+    &:after {
+        content: "";
+        width: 2px;
+        height: 48px;
+        background: #ff8282;
+        transform: rotate(-45deg);
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: top;
+    }
+    &:before {
+        content: "";
+        width: 2px;
+        height: 48px;
+        background: #ff8282;
+        transform: rotate(45deg);
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform-origin: top;
+    }
+}

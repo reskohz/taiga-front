@@ -5,47 +5,48 @@ a.button.button-gray.show-add-new(
 )
     
 section
-    .admin-attributes-section-wrapper-empty(
+    .admin-tags-section-wrapper-empty(
         ng-show="!projectTagsAll.length"
         tg-loading="ctrl.loading"
     )
         p(translate="ADMIN.PROJECT_VALUES_TAGS.EMPTY")
 
-    .admin-attributes-section-wrapper(
+    .admin-tags-section-wrapper(
         ng-show="projectTagsAll.length"
     )
-        div.table-header.table-tags-editor
-            form
-                div.row.table-main.new-value.hidden
-                    div.color-column(
-                        tg-color-selection
-                        tg-allow-empty="true"
-                        ng-model="newValue"
+    
+        .add-tag-container
+            .color-column(
+                tg-color-selection
+                tg-allow-empty="true"
+                ng-model="newValue"
+            )
+                .current-color(ng-style="{background: newValue.color}")
+                include ../../components/select-color
+
+            .tag-name
+                input(
+                    name="name"
+                    type="text"
+                    placeholder="{{'ADMIN.TYPES.PLACEHOLDER_WRITE_NAME' | translate}}",
+                    ng-model="newValue.name"
+                    data-required="true"
+                    data-maxlength="255"
+                )
+
+            .options-column
+                a.add-new.e2e-save(href="")
+                    tg-svg(
+                        title="{{'COMMON.ADD' | translate}}",
+                        svg-icon="icon-save"
                     )
-                        div.current-color(ng-style="{background: newValue.color}")
-                        include ../../components/select-color
-
-                    div.status-name
-                        input(
-                            name="name"
-                            type="text"
-                            placeholder="{{'ADMIN.TYPES.PLACEHOLDER_WRITE_NAME' | translate}}",
-                            ng-model="newValue.name"
-                            data-required="true"
-                            data-maxlength="255"
-                        )
-
-                    div.options-column
-                        a.add-new.e2e-save(href="")
-                            tg-svg(
-                                title="{{'COMMON.ADD' | translate}}",
-                                svg-icon="icon-save"
-                            )
-                        a.delete-new(href="")
-                            tg-svg(
-                                title="{{'COMMON.CANCEL' | translate}}",
-                                svg-icon="icon-close"
-                            )
+                a.delete-new(href="")
+                    tg-svg(
+                        title="{{'COMMON.CANCEL' | translate}}",
+                        svg-icon="icon-close"
+                    )
+        
+        .table-header.table-tags-editor
             div.row.header-tag-row
                 .color-column(translate="COMMON.FIELDS.COLOR")
                 .status-name(translate="COMMON.FIELDS.NAME")

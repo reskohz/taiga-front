@@ -1,3 +1,29 @@
+.add-tag-container {
+    align-items: center;
+    background: $whitish;
+    display: flex;
+    margin: .5rem 0;
+    padding: 1rem;
+    .color-column {
+        cursor: pointer;
+        flex-basis: 60px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        position: relative;
+    }
+    .tag-name {
+        flex-basis: 80%;
+        margin-right: 1rem;
+    }
+    .options-column {
+        display: flex;
+        .icon {
+            fill: $grayer;
+            opacity: 1;
+        }
+    }
+}
+
 .tags-table {
     .table-tags-editor {
         input[type="text"] {

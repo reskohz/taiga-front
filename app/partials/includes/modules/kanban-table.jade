@@ -80,7 +80,7 @@ div.kanban-table(tg-kanban-squish-column, tg-kanban-sortable)
                     ng-class="{'kanban-task-maximized': ctrl.isMaximized(s.id), 'kanban-task-minimized': ctrl.isMinimized(s.id)}"
                     tg-class-permission="{'readonly': '!modify_task'}"
                     tg-bind-scope,
-                    on-click-edit="ctrl.editTask(id)"
+                    on-click-edit="ctrl.editUs(id)"
                     on-click-assigned-to="ctrl.changeUsAssignedTo(id)"
                     project="project"
                     item="us"

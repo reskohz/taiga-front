@@ -31,30 +31,44 @@
         &.tag-row {
             margin: .3rem 0;
             padding: .7rem;
-
+            &:hover {
+                cursor: default;
+            }
             &.edition {
                 padding-left: 1rem;
             }
         }
     }
-    .mixing-row {
-        margin: .3rem 0;
-        padding: .7rem;
-
-        &.mixing-tags-from,
-        &.mixing-tags-to {
-            background: lighten($primary, 60%);
+    .mix-tags {
+        position: relative;
+        .popover {
+            @include popover(120px, '', '', 2rem, -85%, 1rem, '', 50%, -5px);
         }
-        .mixing-confirm {
-            margin: 0 1rem;
-        }
-        .mixing-help-text {
-            color: $gray-light;
-        }
-        .mixing-cancel {
-            .icon {
-                opacity: 1;
+        &:hover {
+            .popover {
+                display: block;
             }
+        }
+    }
+    .mixing-options-column {
+        text-align: right;
+    }
+    .mixing-tags-from,
+    .mixing-tags-to {
+        background: lighten(rgba($primary-light, .2), 30%);
+    }
+    .mixing-confirm {
+        margin: 0 .5rem;
+    }
+    .mixing-help-text {
+        @include font-size(xsmall);
+        color: $primary-dark;
+        display: inline;
+        padding-right: .5rem;
+        text-align: center;
+        @include breakpoint(laptop) {
+            display: block;
+            padding: .5rem;
         }
     }
 }

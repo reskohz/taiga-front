@@ -15,7 +15,6 @@
     }
     .row {
         align-items: center;
-        border-bottom: 1px solid $whitish;
         display: flex;
         justify-content: center;
         padding: 1rem;
@@ -27,15 +26,11 @@
                 cursor: pointer;
             }
         }
-        &.edition,
-        &.new-value {
-            padding-left: 50px;
-        }
         &.hidden {
             display: none;
         }
         &:hover {
-            background: lighten($primary, 60%);
+            background: lighten(rgba($primary-light, .2), 30%);
             cursor: move;
             transition: background .2s ease-in;
             .icon {
@@ -113,13 +108,6 @@
             display: inline-block;
         }
     }
-    form {
-        &:last-child {
-            .row {
-                border: 0;
-            }
-        }
-    }
 
     .row-edit {
         .options-column {
@@ -145,6 +133,10 @@
         &.icon-check {
             cursor: default;
             fill: $primary;
+            opacity: 1;
+        }
+        &.icon-merge {
+            cursor: default;
             opacity: 1;
         }
         &.icon-search {

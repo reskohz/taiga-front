@@ -566,7 +566,7 @@
             "ACTION_ADD": "Add tag",
             "NEW_TAG": "New tag",
             "MIXING_HELP_TEXT": "Select the tags that you want to merge",
-            "MIXING_MERGE": "Merge",
+            "MIXING_MERGE": "Merge Tags",
             "SELECTED": "Selected"
         },
         "ROLES": {

@@ -48,7 +48,7 @@ h2.card-title(ng-if="vm.zoom >= 1")
         tg-nav-get-params="{\"kanban-status\": {{vm.item.getIn(['model', 'status'])}}}"
         title="#{{ ::vm.item.getIn(['model', 'ref']) }} {{ vm.item.getIn(['model', 'subject'])}}"
     ) {{::"#" + vm.item.getIn(['model', 'ref'])}}
-        span.item-title {{vm.item.getIn(['model', 'subject'])}}
+        span.card-title.e2e-title {{vm.item.getIn(['model', 'subject'])}}
 
 .card-data(ng-if="vm.zoom >= 2")
     span.card-estimation(

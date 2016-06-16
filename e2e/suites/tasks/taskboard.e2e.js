@@ -9,7 +9,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('taskboard', function() {
+describe.only('taskboard', function() {
     before(async function() {
         await utils.nav
             .init()
@@ -19,6 +19,24 @@ describe('taskboard', function() {
             .go();
 
         utils.common.takeScreenshot('taskboard', 'taskboard');
+    });
+
+    it('zoom', async function() {
+        taskboardHelper.zoom(1);
+        await browser.sleep(1000);
+        utils.common.takeScreenshot('taskboard', 'zoom1');
+
+        taskboardHelper.zoom(2);
+        await browser.sleep(1000);
+        utils.common.takeScreenshot('taskboard', 'zoom2');
+
+        taskboardHelper.zoom(3);
+        await browser.sleep(1000);
+        utils.common.takeScreenshot('taskboard', 'zoom3');
+
+        taskboardHelper.zoom(4);
+        await browser.sleep(1000);
+        utils.common.takeScreenshot('taskboard', 'zoom4');
     });
 
     describe('create task', function() {
@@ -65,7 +83,7 @@ describe('taskboard', function() {
 
             let tasks = taskboardHelper.getBoxTasks(0, 0);
 
-            let tasksSubject = await $$('.task-name').getText();
+            let tasksSubject = await $$('.e2e-title').getText();
 
             let findSubject = tasksSubject.indexOf(formFields.subject) !== -1;
 
@@ -111,7 +129,7 @@ describe('taskboard', function() {
 
             let tasks = taskboardHelper.getBoxTasks(0, 0);
 
-            let tasksSubject = await $$('.task-name').getText();
+            let tasksSubject = await $$('.e2e-title').getText();
 
             let findSubject = tasksSubject.indexOf(formFields.subject) !== 1;
 

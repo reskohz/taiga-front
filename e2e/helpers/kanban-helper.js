@@ -15,7 +15,7 @@ helper.getColumns = function() {
 };
 
 helper.getColumnUssTitles = function(column) {
-    return helper.getColumns().$$('.item-title').getText();
+    return helper.getColumns().$$('.e2e-title').getText();
 };
 
 helper.getBoxUss = function(column) {

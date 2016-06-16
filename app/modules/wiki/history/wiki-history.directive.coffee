@@ -20,10 +20,7 @@
 module = angular.module('taigaWikiHistory')
 
 WikiHistoryDirective = () ->
-    link = (scope, el, attr) ->
-
     return {
-        link: link,
         templateUrl:"wiki/history/wiki-history.html",
         controller: "WikiHistoryCtrl",
         controllerAs: "vm",
@@ -32,7 +29,5 @@ WikiHistoryDirective = () ->
             wikiId: "<"
         }
     }
-
-WikiHistoryDirective.$inject = []
 
 module.directive("tgWikiHistory", WikiHistoryDirective)

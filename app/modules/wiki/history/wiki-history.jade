@@ -4,7 +4,7 @@ nav.history-tabs(ng-if="vm.activities")
         title="{{ACTIVITY.TITLE}}"
         translate="ACTIVITY.TITLE"
     )
-    
+
 section.wiki-history(ng-if="vm.activities")
     tg-wiki-history-entry.wiki-history-entry(
         tg-repeat="activity in vm.activities"

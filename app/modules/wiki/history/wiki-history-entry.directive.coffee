@@ -31,6 +31,4 @@ WikiHistoryEntryDirective = () ->
         }
     }
 
-WikiHistoryEntryDirective.$inject = []
-
 module.directive("tgWikiHistoryEntry", WikiHistoryEntryDirective)

@@ -21,7 +21,7 @@ div.taskboard-table(tg-taskboard-squish-column, tg-taskboard-sortable)
 
     div.taskboard-table-body(tg-taskboard-table-height-fixer)
         div.taskboard-table-inner
-            div.task-row(ng-repeat="us in ::userstories track by us.id", ng-class="{blocked: us.is_blocked, 'row-fold':usFolded[us.id]}")
+            div.task-row(ng-repeat="us in userstories track by us.id", ng-class="{blocked: us.is_blocked, 'row-fold':usFolded[us.id]}")
                 div.taskboard-userstory-box.task-column(tg-bo-title="us.blocked_note")
                     tg-svg.vfold.fold-action(
                         svg-icon="icon-fold-row",
@@ -60,7 +60,6 @@ div.taskboard-table(tg-taskboard-squish-column, tg-taskboard-sortable)
                          ng-if="ctrl.showPlaceHolder(st.id, us.id)"
                          ng-include="'common/components/taskboard-placeholder.html'"
                     )
-
                     tg-card.card.ng-animate-disabled(
                         tg-repeat="task in usTasks.getIn([us.id.toString(), st.id.toString()]) track by task.get('id')"
                         ng-class="{'kanban-task-maximized': ctrl.isMaximized(s.id), 'kanban-task-minimized': ctrl.isMinimized(s.id)}"

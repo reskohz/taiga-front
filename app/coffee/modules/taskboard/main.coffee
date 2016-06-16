@@ -55,13 +55,14 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin)
         "$tgAnalytics",
         "$translate",
         "tgErrorHandlingService",
-        "tgTaskboardTasks"
+        "tgTaskboardTasks",
+        "$tgStorage"
     ]
 
     constructor: (@scope, @rootscope, @repo, @confirm, @rs, @rs2, @params, @q, @appMetaService, @location, @navUrls,
-                  @events, @analytics, @translate, @errorHandlingService, @taskboardTasksService) ->
+                  @events, @analytics, @translate, @errorHandlingService, @taskboardTasksService, @storage) ->
         bindMethods(@)
-        @.zoom = 0
+        @.zoom = @storage.get("taskboard_zoom") or 0
         @scope.userstories = []
 
         @scope.sectionName = @translate.instant("TASKBOARD.SECTION_NAME")
@@ -229,13 +230,13 @@ class TaskboardController extends mixOf(taiga.Controller, taiga.PageMixin)
         task = @.taskboardTasksService.getTask(id)
 
         task = task.set('loading', true)
-        @.taskboardTasksService.replace(task)
+        @taskboardTasksService.replace(task)
 
         @rs.tasks.getByRef(task.getIn(['model', 'project']), task.getIn(['model', 'ref'])).then (editingTask) =>
              @rs2.attachments.list("task", task.get('id'), task.getIn(['model', 'project'])).then (attachments) =>
                 @rootscope.$broadcast("taskform:edit", editingTask, attachments.toJS())
                 task = task.set('loading', false)
-                @.taskboardTasksService.replace(task)
+                @taskboardTasksService.replace(task)
 
     prepareBulkUpdateData: (uses) ->
          return _.map(uses, (x) -> {"task_id": x.id, "order": x["taskboard_order"]})

@@ -65,15 +65,16 @@ class KanbanController extends mixOf(taiga.Controller, taiga.PageMixin, taiga.Fi
         "$translate",
         "tgErrorHandlingService",
         "$tgModel",
-        "tgKanbanUserstories"
+        "tgKanbanUserstories",
+        "$tgStorage"
     ]
 
     constructor: (@scope, @rootscope, @repo, @confirm, @rs, @rs2, @params, @q, @location,
                   @appMetaService, @navUrls, @events, @analytics, @translate, @errorHandlingService,
-                  @model, @kanbanUserstoriesService) ->
+                  @model, @kanbanUserstoriesService, @storage) ->
 
         bindMethods(@)
-        @.zoom = 0
+        @.zoom = @storage.get("kanban_zoom") or 0
 
         @scope.sectionName = @translate.instant("KANBAN.SECTION_NAME")
         @scope.statusViewModes = {}

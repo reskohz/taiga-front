@@ -15,7 +15,10 @@ div.wrapper(tg-taskboard, ng-controller="TaskboardController as ctrl",
                 div.burndown(tg-sprint-graph)
                     include ../includes/modules/burndown
 
-            tg-board-zoom(value="ctrl.zoom")
+            tg-board-zoom(
+                value="ctrl.zoom"
+                storage="taskboard_zoom"
+            )
 
             include ../includes/modules/taskboard-table
 

@@ -22,7 +22,7 @@ div.wrapper(
             tg-editable-wiki-content,
             ng-model="wiki"
         )
-        
+
         .summary.wiki-summary(
             tg-wiki-summary
             ng-model="wiki"
@@ -36,18 +36,8 @@ div.wrapper(
             project-id="projectId"
             edit-permission = "modify_wiki_page"
         )
-        
+
         tg-wiki-history(
             ng-if="wiki.id"
             wiki-id="wiki.id"
         )
-
-        a.remove(
-            href=""
-            ng-click="ctrl.delete()"
-            ng-if="wiki.id"
-            title="{{'WIKI.REMOVE' | translate}}"
-            tg-check-permission="delete_wiki_page"
-        )
-            tg-svg(svg-icon="icon-trash")
-            span(translate="WIKI.REMOVE")
